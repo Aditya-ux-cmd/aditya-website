@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - Categories</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h2>Explore Our Categories</h2>
+                <div class="category-grid">
+                    {% for category in categories %}
+                        <div class="category-card">
+                            <h3><a href="{{ url_for('view_category', category_name=category) }}">{{ category | replace('_', ' ') | capitalize }} Facts</a></h3>
+                            <p>Discover amazing facts about {{ category | replace('_', ' ') }}.</p>
+                            <a href="{{ url_for('view_category', category_name=category) }}" class="btn">View Facts</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/categories.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - Categories</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h2>Explore Our Categories</h2>
+                <div class="category-grid">
+                    {% for category in categories %}
+                        <div class="category-card">
+                            <h3><a href="{{ url_for('view_category', category_name=category) }}">{{ category | replace('_', ' ') | capitalize }} Facts</a></h3>
+                            <p>Discover amazing facts about {{ category | replace('_', ' ') }}.</p>
+                            <a href="{{ url_for('view_category', category_name=category) }}" class="btn">View Facts</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/category_facts.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - {{ category_name | replace('_', ' ') | capitalize }} Facts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h2>{{ category_name | replace('_', ' ') | capitalize }} Facts</h2>
+                {% if not facts %}
+                    <p style="text-align: center; font-size: 1.2rem; color: #777;">No facts found in this category yet. Check back soon!</p>
+                {% endif %}
+                <div class="fact-list">
+                    {% for fact in facts %}
+                        <div class="fact-card">
+                            <img src="{{ fact.image }}" alt="{{ fact.title }}">
+                            <h3>{{ fact.title }}</h3>
+                            <p>{{ fact.text }}</p>
+                            <a href="{{ url_for('view_fact', fact_id=fact.id) }}" class="btn">View Details</a>
+                            {% if session.username %}
+                                <form action="{{ url_for('remove_fact', fact_id=fact.id) }}" method="post" style="display:inline-block; margin-top: 10px;">
+                                    <button type="submit" class="btn btn-primary" style="background-color: #dc3545; margin-left: 5px;">Remove Fact</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/single_fact.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - {{ fact.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <div class="single-fact-card">
+                    <h2>{{ fact.title }}</h2>
+                    <img src="{{ fact.image }}" alt="{{ fact.title }}" class="fact-detail-image">
+                    <p class="fact-text">{{ fact.text }}</p>
+                    <div class="fact-navigation">
+                        {% if prev_fact_id %}
+                            <a href="{{ url_for('view_fact', fact_id=prev_fact_id) }}" class="btn">Previous Fact</a>
+                        {% else %}
+                            <span class="btn" style="background-color: #ccc; cursor: not-allowed;">Previous Fact</span>
+                        {% endif %}
+
+                        {% if next_fact_id %}
+                            <a href="{{ url_for('view_fact', fact_id=next_fact_id) }}" class="btn">Next Fact</a>
+                        {% else %}
+                            <span class="btn" style="background-color: #ccc; cursor: not-allowed;">Next Fact</span>
+                        {% endif %}
+                    </div>
+                    {% if session.username %}
+                        <form action="{{ url_for('remove_fact', fact_id=fact.id) }}" method="post" style="display:block; margin-top: 30px;">
+                            <button type="submit" class="btn btn-primary" style="background-color: #dc3545;">Remove This Fact</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/login.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="form-container">
+                <h2>Login to Facts_Sansar</h2>
+                {% if message %}
+                    <p class="info-message">{{ message }}</p>
+                {% endif %}
+                {% if error %}
+                    <p class="error-message">{{ error }}</p>
+                {% endif %}
+                <form method="POST" action="{{ url_for('login') }}">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <p style="margin-top: 20px;">Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/register.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="form-container">
+                <h2>Register for Facts_Sansar</h2>
+                {% if error %}
+                    <p class="error-message">{{ error }}</p>
+                {% endif %}
+                <form method="POST" action="{{ url_for('register') }}">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">Register</button>
+                </form>
+                <p style="margin-top: 20px;">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/add_fact.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - Add New Fact</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="form-container">
+                <h2>Add a New Fact</h2>
+                {% if error %}
+                    <p class="error-message">{{ error }}</p>
+                {% endif %}
+                <form method="POST" action="{{ url_for('add_fact') }}">
+                    <div class="form-group">
+                        <label for="title">Fact Title:</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Fact Description:</label>
+                        <textarea id="text" name="text" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image URL:</label>
+                        <input type="text" id="image" name="image" placeholder="e.g., https://example.com/image.jpg" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select id="category" name="category" required>
+                            <option value="">-- Select Category --</option>
+                            {% for cat in categories %}
+                                <option value="{{ cat }}">{{ cat | replace('_', ' ') | capitalize }}</option>
+                            {% endfor %}
+                            <option value="other">Other (will create new category)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Submit Fact</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/about.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - About Us</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h2>About Facts_Sansar</h2>
+                <p>Welcome to Facts_Sansar, your ultimate destination for discovering fascinating and genuine facts from across the globe and beyond. Our mission is to ignite curiosity and provide reliable knowledge in an engaging and accessible way.</p>
+                <p>In a world overflowing with information, we strive to be a beacon of truth, ensuring every fact presented on our platform is thoroughly researched and verified. We believe that learning should be an exciting journey, and with Facts_Sansar, you're always just a click away from a new discovery.</p>
+                <p>Join our community of knowledge seekers! Explore diverse categories, from the mysteries of the universe to the intricacies of daily life. Whether you're a student, a lifelong learner, or just someone who loves to uncover amazing truths, Facts_Sansar is here to expand your horizons.</p>
+                <p>Thank you for being a part of our Sansar (world) of Facts!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/contact.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - Contact Us</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="form-container">
+                <h2>Contact Us</h2>
+                <p>Have a question, feedback, or a genuine fact to share? We'd love to hear from you!</p>
+                {% if success_message %}
+                    <p class="success-message">{{ success_message }}</p>
+                {% endif %}
+                <form action="{{ url_for('contact') }}" method="POST">
+                    <div class="form-group">
+                        <label for="name">Your Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message:</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/search_results.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - Search Results for "{{ query }}"</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h2>Search Results for "{{ query }}"</h2>
+                {% if results %}
+                    <div class="search-results-list">
+                        {% for fact in results %}
+                            <div class="fact-card">
+                                <img src="{{ fact.image }}" alt="{{ fact.title }}">
+                                <h3>{{ fact.title }}</h3>
+                                <p>{{ fact.text }}</p>
+                                <a href="{{ url_for('view_fact', fact_id=fact.id) }}" class="btn">View Details</a>
+                                {% if session.username %}
+                                    <form action="{{ url_for('remove_fact', fact_id=fact.id) }}" method="post" style="display:inline-block; margin-top: 10px;">
+                                        <button type="submit" class="btn btn-primary" style="background-color: #dc3545; margin-left: 5px;">Remove Fact</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p style="text-align: center; font-size: 1.2rem; color: #777;">No facts found matching your search query. Try a different keyword!</p>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+templates/index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts_Sansar - Discover Amazing Facts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Facts_Sansar</h1>
+                </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    {% if session.username %}
+                        <li><a href="{{ url_for('add_fact') }}" class="btn">Add Fact</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn">Logout ({{ session.username }})</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" class="btn">Login / Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Uncover the Universe of Knowledge!</h2>
+                <p>Your daily dose of genuine facts from around the world.</p>
+                <a href="{{ url_for('categories') }}" class="btn btn-primary">Explore Facts</a>
+            </div>
+        </section>
+
+        <section class="featured-fact content-section">
+            <div class="container">
+                <h3>Fact of the Day</h3>
+                <div class="fact-card">
+                    <img src="https://via.placeholder.com/400x250?text=Amazing+Fact+Image" alt="Fact Image">
+                    <p>Did you know that a group of owls is called a parliament?</p>
+                    <a href="{{ url_for('view_fact', fact_id=1) }}" class="btn">Read More</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2>Search for Facts</h2>
+                <form action="{{ url_for('search') }}" method="GET" class="form-container" style="max-width: 700px; margin-top: 20px; box-shadow: none; background: none; padding: 0;">
+                    <div class="form-group">
+                        <label for="search_query" style="display:none;">Search Facts:</label>
+                        <input type="text" id="search_query" name="query" placeholder="Search for any fact..." style="width: calc(100% - 100px); display: inline-block; margin-right: 10px;">
+                        <button type="submit" class="btn" style="width: 80px; display: inline-block;">Search</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Facts_Sansar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    </body>
+</html>

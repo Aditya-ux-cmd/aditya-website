@@ -1,0 +1,449 @@
+/* Basic Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    width: 85%; /* Slightly wider container */
+    max-width: 1100px; /* Max width for large screens */
+    margin: auto;
+    overflow: hidden; /* Clears floats */
+    padding: 0 20px; /* Some padding on sides */
+}
+
+/* Header */
+header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    border-bottom: #77aaff 3px solid;
+    display: flex; /* Use flexbox for header layout */
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+header .logo h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 2rem;
+    flex-grow: 1; /* Allow logo to grow */
+}
+
+header nav {
+    margin-top: 0; /* Reset margin for flexbox */
+}
+
+header ul {
+    list-style: none;
+    display: flex; /* Use flexbox for nav links */
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+    justify-content: center; /* Center nav items on wrap */
+}
+
+header li {
+    padding: 0 15px; /* Adjust padding */
+    margin-bottom: 5px; /* Space out items on wrap */
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.95rem; /* Slightly smaller font */
+    transition: color 0.3s ease;
+}
+
+header a:hover {
+    color: #77aaff;
+    font-weight: bold;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Indicate it's clickable */
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.btn-primary {
+    background-color: #28a745; /* Green */
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 450px; /* Slightly taller */
+    background: #555 url('https://via.placeholder.com/1400x450?text=Knowledge+Background') no-repeat center center/cover;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px 20px; /* More padding */
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.6); /* Stronger shadow */
+}
+
+.hero h2 {
+    font-size: 4rem; /* Larger font */
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.3rem; /* Larger font */
+    margin-bottom: 30px;
+    max-width: 700px;
+}
+
+/* Content Sections (General Styling for main content areas) */
+.content-section {
+    padding: 50px 0;
+    background-color: #fff;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.content-section h2 {
+    text-align: center;
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 40px;
+    text-transform: capitalize;
+}
+
+/* Featured Fact Section */
+.featured-fact {
+    padding: 40px 0;
+    text-align: center;
+    background-color: #f9f9f9; /* Lighter background */
+    border-bottom: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.featured-fact h3 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #007bff;
+}
+
+.fact-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 700px; /* Wider card */
+    margin: 0 auto;
+    transition: transform 0.2s ease;
+}
+
+.fact-card:hover {
+    transform: translateY(-5px);
+}
+
+.fact-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.fact-card p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+/* Category Grid (for categories.html) */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 30px; /* Space between cards */
+    padding: 20px;
+}
+
+.category-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.category-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.category-card h3 a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.category-card h3 a:hover {
+    text-decoration: underline;
+}
+
+.category-card p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* Fact List (for category_facts.html) */
+.fact-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.fact-list .fact-card {
+    margin: 0; /* Override auto margin for grid items */
+    max-width: none; /* Allow grid to control width */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push button to bottom */
+}
+
+/* Single Fact Page */
+.single-fact-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.single-fact-card h2 {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 25px;
+}
+
+.fact-detail-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.fact-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 40px;
+    text-align: justify;
+}
+
+.fact-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.fact-navigation .btn {
+    flex-basis: 48%; /* Give buttons nearly half width */
+    text-align: center;
+}
+
+
+/* Forms (Login, Register, Add Fact, Contact) */
+.form-container {
+    background-color: #fff;
+    padding: 40px; /* More padding */
+    border-radius: 10px; /* More rounded corners */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    max-width: 500px; /* Slightly wider form */
+    margin: 50px auto;
+    text-align: center;
+}
+.form-container h2 {
+    margin-bottom: 30px;
+    color: #007bff;
+    font-size: 2.5rem;
+}
+.form-group {
+    margin-bottom: 20px; /* More space between fields */
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px; /* Space for label */
+    font-weight: bold;
+    color: #555;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group textarea,
+.form-group select {
+    width: 100%; /* Full width */
+    padding: 12px; /* More padding */
+    border: 1px solid #ddd;
+    border-radius: 6px; /* Slightly more rounded */
+    font-size: 1.05rem; /* Slightly larger font */
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none; /* Remove outline on focus */
+    box-shadow: 0 0 5px rgba(0,123,255,0.2); /* Subtle focus shadow */
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px; /* Taller text area */
+}
+.form-container .btn {
+    width: 100%;
+    padding: 15px; /* Larger button */
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+.error-message {
+    color: #dc3545;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.info-message, .success-message {
+    color: #28a745;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Search Results Page */
+.search-results-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.search-results-list .fact-card {
+    margin: 0;
+    max-width: none;
+}
+
+/* Footer */
+footer {
+    background: #222; /* Darker footer */
+    color: #eee; /* Lighter text */
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 50px;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .container {
+        width: 90%;
+    }
+    .hero h2 {
+        font-size: 3.5rem;
+    }
+    .hero p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    header .logo {
+        margin-bottom: 15px;
+    }
+    header nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
+    header nav li {
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    header nav li:last-child {
+        border-bottom: none;
+    }
+    .hero h2 {
+        font-size: 2.8rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+    .content-section h2, .featured-fact h3 {
+        font-size: 2rem;
+    }
+    .category-grid, .fact-list, .search-results-list {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+    .form-container {
+        margin: 30px 15px;
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h2 {
+        font-size: 2rem;
+    }
+    .fact-card {
+        padding: 15px;
+    }
+    .form-container {
+        padding: 20px;
+    }
+    .fact-navigation {
+        flex-direction: column;
+    }
+    .fact-navigation .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
